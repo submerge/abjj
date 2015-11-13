@@ -1,0 +1,18 @@
+<%for (var i=0;i<data.length;i++){%>
+	<li class="vote_item">
+		<a href="<%=data[i].imgh_url%>" class="vote_poster" target="_blank" workid = "<%=data[i.works_id]%>">
+			<img src="<%=data[i].imgh_url%>">
+		</a>
+		<a href="<%=data[i].imgh_url%>" class="vote_post_title"><%=data[i].title%></a>
+		<div class="wrapvote">
+			<a href="javascript:void(0)" class="tovote fl <%if(data[i].uid_has_voted){%>voted<%}%>" workid = "<%=data[i].works_id%>">
+				<%if(data[i].uid_has_voted){%>
+							已赞
+						<%} else {%>
+							赞一下
+						<%}%>
+			</a>
+			<span class="votenum fl"><%=data[i].vote_num%></span>
+		</div>
+	</li>
+<%}%>
