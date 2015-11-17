@@ -1,4 +1,78 @@
+define('common/log', function(require, exports, module){ /**
+ * Created by leexiaosi on 14-6-28.
+ */
+
+var _ = require('jquery/underscore');
 var $ = require('jquery');
+var log = {};
+
+log.loadImage = function(src,callback){
+    if(!src) {return}
+    var t = new Date().getTime();
+    var name =  'gcw_img' + t;
+    var img = window[name] = new Image();
+    img.onload = img.onerror = img.onabort = function(){
+        if(typeof callback == 'function'){
+            callback(img);
+        }
+        img.onload = img.onerror = img.onabort = null;
+        try{
+            window[name] = null;
+            delete window[name];
+            img = null;
+        }
+        catch (e){
+            img = null;
+        }
+    };
+    img.src = src + '&r=' + t;
+};
+
+log.getUrl = function(gif){
+    return 'http://nsclick.baidu.com/' + gif + '?pid=104&id=abjj&tn=zhuanti&tpl=zhuanti';
+};
+
+log.pvlog = function(){
+    this.loadImage(this.getUrl('p.gif') );
+};
+
+log.clicklog = function(conf){
+    this.loadImage(this.getUrl('v.gif') + conf);
+};
+
+log.init = function(){
+    var self = this;
+    $(document.body).delegate('a','mousedown',function(ev){
+        var $link = $(ev.currentTarget),
+            info = {
+                u : $link.attr('href')
+            },
+            title = $link.attr('title') || $link.text() || '';
+            info.ti = $.trim(title);
+            info = _.defaults(info,log.static2map($link.attr('static') || ""));
+            $link.parents().each(function(){
+                var logConf = $(this).attr('static');
+                if(logConf){
+                    info = _.defaults(info,log.static2map(logConf));
+                }
+            });
+            self.clicklog('&' + $.param(info));
+    });
+    self.pvlog();
+};
+log.static2map = function(logConf){
+    var result = {};
+    _.each(logConf.split('&'),function(item){
+        var keyMap = item.split('=');
+        if(!_.isEmpty(keyMap[0])){
+            result[keyMap[0]] = encodeURIComponent(keyMap[1]);
+        }
+    });
+    return result;
+};
+exports = module.exports = _.bind(log.init,log); 
+});
+;define('app/main', function(require, exports, module){ var $ = require('jquery');
 
 var config = (function () {
 
@@ -75,7 +149,19 @@ Main.prototype = {
 		//var votelist = videos.slice(1);
 		//this.total_num = parseInt(data.data.total_num);
 
-		var poster_tmpl = __inline('./poster.tmpl');
+		var poster_tmpl = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<a class="poster" href="'+
+((__t=( data.url))==null?'':__t)+
+'" target="_blank" static="bl=poster&tpl=poster">\r\n\t<img src="'+
+((__t=( data.imgh_url))==null?'':__t)+
+'">\r\n\t<span class="title postertitle">'+
+((__t=( data.title))==null?'':__t)+
+'</span>\r\n\t<span class="mask postermask"></span>\r\n</a>\r\n';
+}
+return __p;
+};
 		var poster_html = poster_tmpl({data:poster});
 		this.$poster.append(poster_html);
 
@@ -89,7 +175,51 @@ Main.prototype = {
 		}
 		var leftvotenum = data.data.left_vote_times;
 		//var votelist = videos.slice(1);
-		var vote_tmpl = __inline('./votelist.tmpl');
+		var vote_tmpl = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="vote_header">\r\n\t<h2 class="ilb vote_title">给最感人的视频点个赞吧</h2>\r\n\t<p class="ilb leftvotenum">今日可投票数:<span class="availnums">'+
+((__t=(leftvotenum))==null?'':__t)+
+'</span></p>\r\n</div>\r\n<div class="vote_list" static="bl=votelist">\r\n\t<ul>\r\n\t\t';
+for (var i=0;i<data.length;i++){
+__p+='\r\n\t\t\t<li class="vote_item ';
+if(i%2 === 0){
+__p+='oven';
+}
+__p+='">\r\n\t\t\t\t<a href="'+
+((__t=(data[i].url))==null?'':__t)+
+'" class="vote_poster" target="_blank" static="tpl=voteitem" alog-alias="voteitem'+
+((__t=(i))==null?'':__t)+
+'">\r\n\t\t\t\t\t<img src="'+
+((__t=(data[i].imgh_url))==null?'':__t)+
+'">\r\n\t\t\t\t</a>\r\n\t\t\t\t<a href="'+
+((__t=(data[i].url))==null?'':__t)+
+'" class="vote_post_title" data-openap="'+
+((__t=( data[i].url))==null?'':__t)+
+'" data-openapp-fail="baiduvideo_4190a.apk" data-title="'+
+((__t=( data[i].title))==null?'':__t)+
+'">'+
+((__t=(data[i].title))==null?'':__t)+
+'</a>\r\n\t\t\t\t<div class="wrapvote">\r\n\t\t\t\t\t<a href="javascript:void(0)" class="tovote fl ';
+if(data[i].uid_has_voted){
+__p+='voted';
+}
+__p+='" workid = "'+
+((__t=(data[i].works_id))==null?'':__t)+
+'">\r\n\t\t\t\t\t\t';
+if(data[i].uid_has_voted){
+__p+='\r\n\t\t\t\t\t\t\t已赞\r\n\t\t\t\t\t\t';
+} else {
+__p+='\r\n\t\t\t\t\t\t\t赞一下\r\n\t\t\t\t\t\t';
+}
+__p+='\r\n\t\t\t\t\t</a>\r\n\t\t\t\t\t<span class="votenum fl">'+
+((__t=(data[i].vote_num))==null?'':__t)+
+'票</span>\r\n\t\t\t\t</div>\r\n\t\t\t</li>\r\n\t\t';
+}
+__p+='\r\n\t</ul>\r\n</div>';
+}
+return __p;
+};
 		var vote_html = vote_tmpl({data:videos,leftvotenum:leftvotenum});
 		this.$vote.append(vote_html);
 	},
@@ -99,7 +229,49 @@ Main.prototype = {
 		if (config.iphone){
 			this.transferur(videos);
 		}
-		var vote_tmpl = __inline('./appendvotelist.tmpl');
+		var vote_tmpl = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='';
+for (var i=0;i<data.length;i++){
+__p+='\r\n\t<li class="vote_item ';
+if(i%2 === 0){
+__p+='oven';
+}
+__p+='">\r\n\t\t<a href="'+
+((__t=(data[i].url))==null?'':__t)+
+'" class="vote_poster" target="_blank" workid = "'+
+((__t=(data[i.works_id]))==null?'':__t)+
+'" static="tpl=voteitem" alog-alias="voteitem'+
+((__t=(i))==null?'':__t)+
+'">\r\n\t\t\t<img src="'+
+((__t=(data[i].imgh_url))==null?'':__t)+
+'">\r\n\t\t</a>\r\n\t\t<a href="'+
+((__t=(data[i].url))==null?'':__t)+
+'" class="vote_post_title" static="tpl=voteitem" alog-alias="voteitem'+
+((__t=(i))==null?'':__t)+
+'">'+
+((__t=(data[i].title))==null?'':__t)+
+'</a>\r\n\t\t<div class="wrapvote">\r\n\t\t\t<a href="javascript:void(0)" class="tovote fl ';
+if(data[i].uid_has_voted){
+__p+='voted';
+}
+__p+='" workid = "'+
+((__t=(data[i].works_id))==null?'':__t)+
+'">\r\n\t\t\t\t';
+if(data[i].uid_has_voted){
+__p+='\r\n\t\t\t\t\t\t\t已赞\r\n\t\t\t\t\t\t';
+} else {
+__p+='\r\n\t\t\t\t\t\t\t赞一下\r\n\t\t\t\t\t\t';
+}
+__p+='\r\n\t\t\t</a>\r\n\t\t\t<span class="votenum fl">'+
+((__t=(data[i].vote_num))==null?'':__t)+
+'票</span>\r\n\t\t</div>\r\n\t</li>\r\n';
+}
+__p+='';
+}
+return __p;
+};
 		var vote_html = vote_tmpl({data:videos});
 		if (!this.$votelist) {
 			this.$votelist = this.$vote.find('ul');
@@ -193,4 +365,5 @@ Main.prototype = {
 	}
 };
 
-exports = module.exports = Main;
+exports = module.exports = Main; 
+});

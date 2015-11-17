@@ -47,7 +47,7 @@ a:active {
 }
 
 .container {
-	background: #FE9CC2 url(./imgs/bg.jpg) no-repeat 50% 0;
+	background: #FE9CC2 url(http://list.video.baidu.com/double11vote/static/static/imgs/bg_516e7f8.jpg) no-repeat 50% 0;
 	padding-bottom: 10px;
 }
 
@@ -98,7 +98,7 @@ a:active {
 	height: 40px;
 }
 .vote_title {
-	background: url(./imgs/text.jpg);
+	background: url(http://list.video.baidu.com/double11vote/static/static/imgs/text_a793ae9.jpg);
 	text-indent: -9999px;
 	width: 460px;
 	height: 40px;
@@ -136,7 +136,7 @@ a:active {
 .tovote{
 	width: 93px;
 	height: 30px;
-	background: url(./imgs/vote.jpg) no-repeat 0 0;
+	background: url(http://list.video.baidu.com/double11vote/static/static/imgs/vote_d61e759.jpg) no-repeat 0 0;
 	line-height: 30px;
 	padding-left: 35px;
 	font-size: 14px;
@@ -165,14 +165,14 @@ a:active {
 /*_______________________________webapp__________________________________________*/
 @media all  and (max-width: 600px){
 	.container {
-		background-image: url(./webappimg/containerbg.jpg);
+		background-image: url(http://list.video.baidu.com/double11vote/static/static/webappimg/containerbg_1750aca.jpg);
 		background-size: 100% auto;
 		overflow: hidden;
 	}
 	.content{
 		width: 320px;
 		padding-top: 256px;
-		background: url(./webappimg/contentbg.png) no-repeat;
+		background: url(http://list.video.baidu.com/double11vote/static/static/webappimg/contentbg_cee8a06.png) no-repeat;
 		overflow: hidden;
 	}
 
@@ -211,14 +211,14 @@ a:active {
 		-webkit-radius: 25px;
 		-ms-radius: 25px;
 		-moz-radius: 25px;
-		background: url(./webappimg/vote.png) no-repeat 0 0;
+		background: url(http://list.video.baidu.com/double11vote/static/static/webappimg/vote_0608f61.png) no-repeat 0 0;
 	}
 	.vote_title {
 		width: 204px;
 		height: 18px;
 		display: block;
 		margin: 0 auto;
-		background: url(./webappimg/text.jpg);
+		background: url(http://list.video.baidu.com/double11vote/static/static/webappimg/text_7fcd379.jpg);
 	}
 	.vote_post_title {
 		width: 152px;
@@ -245,25 +245,25 @@ a:active {
 
 @media all  and (max-width: 340px) {
 	.container {
-		background-image: url(./webappimg/containerbg_320.jpg);
+		background-image: url(http://list.video.baidu.com/double11vote/static/static/webappimg/containerbg_320_69542de.jpg);
 	}
 }
 
 @media all  and (max-width: 361px) and (min-width: 340px) {
 	.container {
-		background-image: url(./webappimg/containerbg_360.jpg);
+		background-image: url(http://list.video.baidu.com/double11vote/static/static/webappimg/containerbg_360_18e41d5.jpg);
 	}
 }
 
 @media all  and (max-width: 375px) and (min-width: 362px) {
 	.container {
-		background-image: url(./webappimg/containerbg_375.jpg);
+		background-image: url(http://list.video.baidu.com/double11vote/static/static/webappimg/containerbg_375_2ce3a15.jpg);
 	}
 }
 
 @media all  and (max-width: 420px) and (min-width: 376px) {
 	.container {
-		background-image: url(./webappimg/containerbg_420.jpg);
+		background-image: url(http://list.video.baidu.com/double11vote/static/static/webappimg/containerbg_420_d502110.jpg);
 	}
 }
 

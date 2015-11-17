@@ -1,15 +1,15 @@
 <div class="vote_header">
 	<h2 class="ilb vote_title">给最感人的视频点个赞吧</h2>
-	<p class="ilb leftvotenum">今日可投票数:<span><%=leftvotenum%></span></p>
+	<p class="ilb leftvotenum">今日可投票数:<span class="availnums"><%=leftvotenum%></span></p>
 </div>
-<div class="vote_list">
+<div class="vote_list" static="bl=votelist">
 	<ul>
 		<%for (var i=0;i<data.length;i++){%>
-			<li class="vote_item">
-				<a href="<%=data[i].imgh_url%>" class="vote_poster" target="_blank">
+			<li class="vote_item <%if(i%2 === 0){%>oven<%}%>">
+				<a href="<%=data[i].url%>" class="vote_poster" target="_blank" static="tpl=voteitem" alog-alias="voteitem<%=i%>">
 					<img src="<%=data[i].imgh_url%>">
 				</a>
-				<a href="<%=data[i].imgh_url%>" class="vote_post_title"><%=data[i].title%></a>
+				<a href="<%=data[i].url%>" class="vote_post_title" data-openap="<%= data[i].url%>" data-openapp-fail="baiduvideo_4190a.apk" data-title="<%= data[i].title%>" static="tpl=voteitem" alog-alias="voteitem<%=i%>"><%=data[i].title%></a>
 				<div class="wrapvote">
 					<a href="javascript:void(0)" class="tovote fl <%if(data[i].uid_has_voted){%>voted<%}%>" workid = "<%=data[i].works_id%>">
 						<%if(data[i].uid_has_voted){%>
@@ -17,7 +17,6 @@
 						<%} else {%>
 							赞一下
 						<%}%>
-
 					</a>
 					<span class="votenum fl"><%=data[i].vote_num%>票</span>
 				</div>
